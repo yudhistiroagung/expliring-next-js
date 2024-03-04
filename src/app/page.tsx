@@ -14,7 +14,7 @@ export default function Home() {
   ];
 
   const todoItems = () => (
-    <table className="table table-sm">
+    <table className="table table-sm ">
       <thead>
         <tr>
           <th></th>
@@ -31,7 +31,7 @@ export default function Home() {
               <input
                 type="checkbox"
                 className="toggle toggle-success"
-                checked={isFinished}
+                disabled={false}
               />
             </th>
           </tr>
@@ -41,7 +41,7 @@ export default function Home() {
   );
 
   return (
-    <main className="container flex flex-col items-center p-4 gap-4">
+    <main className="container m-auto flex flex-1 flex-col items-center p-4 gap-4">
       <h1>My Todo List</h1>
       {todoItems()}
       <button className="btn btn-primary btn-sm self-end">
