@@ -13,17 +13,17 @@ export default async function Home() {
         <tr>
           <th></th>
           <th>Name</th>
-          <th>Done</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
         {todos.map((todo, index) => (
           <tr key={todo.id}>
             <th>{index + 1}</th>
-            <th>{todo.name}</th>
-            <th className="flex justify-end">
+            <td>{todo.name}</td>
+            <td className="">
               <TodoToggle todo={todo} />
-            </th>
+            </td>
           </tr>
         ))}
       </tbody>

@@ -26,12 +26,17 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
   };
 
   return (
-    <input
-      ref={tRef}
-      type="checkbox"
-      className="toggle toggle-success toggle-sm"
-      checked={checked}
-      onChange={onToggle}
-    />
+    <div className="form-control">
+      <label className="label cursor-pointer">
+        <span className="label-text">{checked ? 'Done' : 'To do'}</span>
+        <input
+          ref={tRef}
+          type="checkbox"
+          className="toggle toggle-success toggle-sm"
+          checked={checked}
+          onChange={onToggle}
+        />
+      </label>
+    </div>
   );
 };
