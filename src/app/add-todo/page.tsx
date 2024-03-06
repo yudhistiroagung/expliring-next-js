@@ -16,7 +16,7 @@ const formSchema = z.object({
 type FormValuesType = z.infer<typeof formSchema>;
 
 export default function Todos() {
-  const { replace } = useRouter();
+  const { replace, refresh } = useRouter();
   const [error, setError] = useState(false);
   const formHandlers = useForm<FormValuesType>({
     mode: 'all',
@@ -25,7 +25,7 @@ export default function Todos() {
   });
   const {
     register,
-    formState: { errors },
+    formState: { errors, isValid },
   } = formHandlers;
 
   const resetError = () => setTimeout(() => setError(false), 2000);
@@ -34,7 +34,13 @@ export default function Todos() {
     try {
       setError(false);
       await TodoService.addTodo(name);
+
       replace('/');
+      /**
+       * NOTE this refresh() should be called so when we go back to home page,
+       * it will reload the entire page, latest todos will be refetched
+       */
+      refresh();
     } catch (error) {
       setError(true);
       resetError();
@@ -72,7 +78,11 @@ export default function Todos() {
               <Link href="/">
                 <button className="btn btn-error btn-sm">Cancel</button>
               </Link>
-              <button type="submit" className="btn btn-primary btn-sm self-end">
+              <button
+                type="submit"
+                className="btn btn-primary btn-sm self-end"
+                disabled={!isValid}
+              >
                 Submit
               </button>
             </div>
