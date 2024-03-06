@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, ElementRef } from 'react';
+import { useRef, useState } from 'react';
 
 import { Todo } from '@/models/todo-models';
 import TodoService from '@/services/todos-services';
@@ -10,18 +10,18 @@ interface TodoToggleProps {
 }
 
 export const TodoToggle = ({ todo }: TodoToggleProps) => {
+  const [checked, setChecked] = useState(todo.isFinished);
   const tRef = useRef<any>(null);
 
   const onToggle = async () => {
-    const isChecked = tRef.current?.checked;
-
+    setChecked(!checked);
     try {
       await TodoService.updateTodo({
         ...todo,
-        isFinished: isChecked,
+        isFinished: !checked,
       });
     } catch (error) {
-      // tRef.current?.checked = !isChecked;
+      setTimeout(() => setChecked(checked), 500);
     }
   };
 
@@ -30,8 +30,8 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
       ref={tRef}
       type="checkbox"
       className="toggle toggle-success toggle-sm"
+      checked={checked}
       onChange={onToggle}
-      defaultChecked={todo.isFinished}
     />
   );
 };

@@ -36,7 +36,6 @@ export default function Todos() {
       await TodoService.addTodo(name);
       replace('/');
     } catch (error) {
-      console.log('ERROR', { error });
       setError(true);
       resetError();
     }
