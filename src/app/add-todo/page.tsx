@@ -16,7 +16,7 @@ const formSchema = z.object({
 type FormValuesType = z.infer<typeof formSchema>;
 
 export default function Todos() {
-  const { push } = useRouter();
+  const { replace } = useRouter();
   const [error, setError] = useState(false);
   const formHandlers = useForm<FormValuesType>({
     mode: 'all',
@@ -34,7 +34,7 @@ export default function Todos() {
     try {
       setError(false);
       await TodoService.addTodo(name);
-      push('/');
+      replace('/');
     } catch (error) {
       console.log('ERROR', { error });
       setError(true);

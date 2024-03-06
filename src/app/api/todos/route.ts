@@ -36,3 +36,22 @@ export const POST = async (req: Request, res: Response) => {
     return NextResponse.json({ message: 'error', error }, { status: 500 });
   }
 };
+
+export const PATCH = async (req: Request, res: Response) => {
+  console.log('[POST] api/todos/');
+  try {
+    const payload = await req.json();
+    if (!payload) {
+      return NextResponse.json(
+        { message: 'payload is required' },
+        { status: 400 }
+      );
+    }
+
+    const data = await TodoDB.addOrUpdate(payload);
+
+    return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json({ message: 'error', error }, { status: 500 });
+  }
+};

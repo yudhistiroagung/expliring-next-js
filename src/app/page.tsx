@@ -1,17 +1,11 @@
 import Link from 'next/link';
 
-interface Todo {
-  id: string;
-  name: string;
-  isFinished: boolean;
-}
+import TodoDB from '@/data/todo-db';
 
-export default function Home() {
-  const todos: Todo[] = [
-    { id: 'asd1', name: 'Learn NextJS', isFinished: false },
-    { id: 'asd2', name: 'Learn Daisy UI', isFinished: false },
-    { id: 'asd3', name: 'Create API using NExtJS', isFinished: false },
-  ];
+import { TodoToggle } from './todo-toggle';
+
+export default async function Home() {
+  const todos = await TodoDB.get();
 
   const todoItems = () => (
     <table className="table table-sm ">
@@ -23,16 +17,12 @@ export default function Home() {
         </tr>
       </thead>
       <tbody>
-        {todos.map(({ id, name, isFinished }, index) => (
-          <tr key={id}>
+        {todos.map((todo, index) => (
+          <tr key={todo.id}>
             <th>{index + 1}</th>
-            <th>{name}</th>
+            <th>{todo.name}</th>
             <th className="flex justify-end">
-              <input
-                type="checkbox"
-                className="toggle toggle-success"
-                disabled={false}
-              />
+              <TodoToggle todo={todo} />
             </th>
           </tr>
         ))}
