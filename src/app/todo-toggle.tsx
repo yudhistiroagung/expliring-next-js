@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRef, useState, useCallback } from 'react';
 
 import { Todo } from '@/domain/todo/models/todo-models';
 import TodoService from '@/services/todos-services';
@@ -10,10 +11,11 @@ interface TodoToggleProps {
 }
 
 export const TodoToggle = ({ todo }: TodoToggleProps) => {
+  const { refresh } = useRouter();
   const [checked, setChecked] = useState(todo.isFinished);
   const tRef = useRef<any>(null);
 
-  const onToggle = async () => {
+  const onToggle = useCallback(async () => {
     setChecked(!checked);
     try {
       await TodoService.updateTodo({
@@ -23,12 +25,21 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
     } catch (error) {
       setTimeout(() => setChecked(checked), 500);
     }
-  };
+  }, [checked, todo]);
+
+  const onDelete = useCallback(async () => {
+    const id = todo.id;
+    try {
+      await TodoService.deleteTodo(id);
+      refresh();
+    } catch (error) {
+      //
+    }
+  }, [refresh, todo.id]);
 
   return (
-    <div className="form-control">
+    <div className="form-control flex-row items-center gap-1">
       <label className="label cursor-pointer">
-        <span className="label-text">{checked ? 'Done' : 'To do'}</span>
         <input
           ref={tRef}
           type="checkbox"
@@ -37,6 +48,9 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
           onChange={onToggle}
         />
       </label>
+      <span className="label-text text-red-500" onClick={onDelete}>
+        {checked ? 'Delete' : ''}
+      </span>
     </div>
   );
 };

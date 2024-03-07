@@ -14,10 +14,15 @@ const updateTodo = async (todo: Todo): Promise<Todo> => {
   return axios.patch('api/todos', todo);
 };
 
+const deleteTodo = async (id: string): Promise<void> => {
+  return axios.delete('api/todos/', { data: { id } });
+};
+
 const todosService = {
   getTodos,
   addTodo,
   updateTodo,
+  deleteTodo,
 };
 
 export default todosService;

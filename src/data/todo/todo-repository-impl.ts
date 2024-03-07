@@ -12,4 +12,8 @@ export class TodoRepositoryImpl implements TodoRepository {
   async get(): Promise<Todo[]> {
     return this.db.get();
   }
+
+  async delete(id: string): Promise<void> {
+    return this.db.delete(id);
+  }
 }

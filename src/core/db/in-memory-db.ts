@@ -12,4 +12,8 @@ export class InMemoryDb<Data> {
   async get(): Promise<Data[]> {
     return Object.values(this._data);
   }
+
+  async delete(id: string): Promise<void> {
+    delete this._data[id];
+  }
 }

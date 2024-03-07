@@ -3,13 +3,13 @@ import Link from 'next/link';
 import di from '@/di';
 
 const {
-  usecases: { getTodoUseCase },
+  usecases: { getTodosUseCase },
 } = di;
 
 import { TodoToggle } from './todo-toggle';
 
 export default async function Home() {
-  const todos = await getTodoUseCase();
+  const todos = await getTodosUseCase();
 
   const todoItems = () => (
     <table className="table table-sm ">
@@ -18,6 +18,7 @@ export default async function Home() {
           <th></th>
           <th>Name</th>
           <th>Status</th>
+          <th className="flex justify-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,7 @@ export default async function Home() {
           <tr key={todo.id}>
             <th>{index + 1}</th>
             <td>{todo.name}</td>
+            <td>{todo.isFinished ? 'Done' : 'To do'}</td>
             <td className="">
               <TodoToggle todo={todo} />
             </td>

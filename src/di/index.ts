@@ -3,16 +3,18 @@ import { TodoRepositoryImpl } from '@/data/todo/todo-repository-impl';
 
 import {
   AddTodoUseCase,
-  GetTodoUseCase,
+  GetTodosUseCase,
   UpdateTodoUseCase,
+  DeleteTodoUseCase,
 } from '@/domain/todo/usecase';
 
 const todoDB = new TodoDB((item) => item.id);
 const todoRepository = new TodoRepositoryImpl(todoDB);
 
 const addTodoUseCase = AddTodoUseCase(todoRepository);
-const getTodoUseCase = GetTodoUseCase(todoRepository);
+const getTodosUseCase = GetTodosUseCase(todoRepository);
 const updateTodoUseCase = UpdateTodoUseCase(todoRepository);
+const deleteTodoUseCase = DeleteTodoUseCase(todoRepository);
 
 const di = {
   repository: {
@@ -20,8 +22,9 @@ const di = {
   },
   usecases: {
     addTodoUseCase,
-    getTodoUseCase,
+    getTodosUseCase,
     updateTodoUseCase,
+    deleteTodoUseCase,
   },
 };
 

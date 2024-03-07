@@ -3,13 +3,17 @@ import { NextResponse } from 'next/server';
 import di from '@/di';
 
 const {
-  usecases: { addTodoUseCase, getTodoUseCase, updateTodoUseCase },
+  usecases: {
+    addTodoUseCase,
+    getTodosUseCase,
+    updateTodoUseCase,
+    deleteTodoUseCase,
+  },
 } = di;
 
 export const GET = async (req: Request, res: Response) => {
-  console.log('[GET] api/todos/');
   try {
-    const data = await getTodoUseCase();
+    const data = await getTodosUseCase();
 
     return NextResponse.json({ data });
   } catch (error) {
@@ -18,7 +22,6 @@ export const GET = async (req: Request, res: Response) => {
 };
 
 export const POST = async (req: Request, res: Response) => {
-  console.log('[POST] api/todos/');
   try {
     const { name } = await req.json();
     if (!name) {
@@ -42,7 +45,6 @@ export const POST = async (req: Request, res: Response) => {
 };
 
 export const PATCH = async (req: Request, res: Response) => {
-  console.log('[POST] api/todos/');
   try {
     const payload = await req.json();
     if (!payload) {
@@ -55,6 +57,21 @@ export const PATCH = async (req: Request, res: Response) => {
     const data = await updateTodoUseCase(payload);
 
     return NextResponse.json(data);
+  } catch (error) {
+    return NextResponse.json({ message: 'error', error }, { status: 500 });
+  }
+};
+
+export const DELETE = async (req: Request, res: Response) => {
+  try {
+    const { id } = await req.json();
+    if (!id) {
+      return NextResponse.json({ message: 'id is required' }, { status: 400 });
+    }
+
+    await deleteTodoUseCase(id);
+
+    return NextResponse.json({ message: 'OK' });
   } catch (error) {
     return NextResponse.json({ message: 'error', error }, { status: 500 });
   }
