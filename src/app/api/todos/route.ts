@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 
-import TodoDB from '@/data/todo-db';
+import di from '@/di';
+
+const {
+  usecases: { addTodoUseCase, getTodoUseCase, updateTodoUseCase },
+} = di;
 
 export const GET = async (req: Request, res: Response) => {
   console.log('[GET] api/todos/');
   try {
-    const data = await TodoDB.get();
+    const data = await getTodoUseCase();
 
     return NextResponse.json({ data });
   } catch (error) {
@@ -29,7 +33,7 @@ export const POST = async (req: Request, res: Response) => {
       name,
       isFinished: false,
     };
-    const data = await TodoDB.addOrUpdate(todo);
+    const data = await addTodoUseCase(todo);
 
     return NextResponse.json(data);
   } catch (error) {
@@ -48,7 +52,7 @@ export const PATCH = async (req: Request, res: Response) => {
       );
     }
 
-    const data = await TodoDB.addOrUpdate(payload);
+    const data = await updateTodoUseCase(payload);
 
     return NextResponse.json(data);
   } catch (error) {

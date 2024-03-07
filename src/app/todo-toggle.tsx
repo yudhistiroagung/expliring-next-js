@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-import { Todo } from '@/models/todo-models';
+import { Todo } from '@/domain/todo/models/todo-models';
 import TodoService from '@/services/todos-services';
 
 interface TodoToggleProps {

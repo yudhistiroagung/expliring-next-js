@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { Todo } from '@/models/todo-models';
+import { Todo } from '@/domain/todo/models/todo-models';
 
 const getTodos = async (): Promise<Todo[]> => {
   return axios.get('api/todos');

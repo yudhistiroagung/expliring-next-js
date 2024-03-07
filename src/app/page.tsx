@@ -1,11 +1,15 @@
 import Link from 'next/link';
 
-import TodoDB from '@/data/todo-db';
+import di from '@/di';
+
+const {
+  usecases: { getTodoUseCase },
+} = di;
 
 import { TodoToggle } from './todo-toggle';
 
 export default async function Home() {
-  const todos = await TodoDB.get();
+  const todos = await getTodoUseCase();
 
   const todoItems = () => (
     <table className="table table-sm ">
