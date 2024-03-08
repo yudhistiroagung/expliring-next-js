@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 import TodoService from '@/services/todos-services';
 
@@ -36,6 +37,7 @@ export default function Todos() {
       await TodoService.addTodo(name);
 
       replace('/');
+
       /**
        * NOTE this refresh() should be called so when we go back to home page,
        * it will reload the entire page, latest todos will be refetched
