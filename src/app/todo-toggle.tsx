@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useRef, useState, useCallback } from 'react';
+import { toast } from 'react-hot-toast';
 
 import { Todo } from '@/domain/todo/models/todo-models';
 import TodoService from '@/services/todos-services';
@@ -16,6 +17,8 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
   const [loading, setLoading] = useState(false);
   const tRef = useRef<any>(null);
 
+  const showError = () => toast.error('Something went wrong, please try again');
+
   const onToggle = useCallback(async () => {
     setChecked(!checked);
     setLoading(true);
@@ -26,6 +29,7 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
       });
     } catch (error) {
       setTimeout(() => setChecked(checked), 500);
+      showError();
     }
     setLoading(false);
   }, [checked, todo]);
@@ -38,6 +42,7 @@ export const TodoToggle = ({ todo }: TodoToggleProps) => {
       refresh();
     } catch (error) {
       setLoading(false);
+      showError();
     }
   }, [refresh, todo.id]);
 

@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import { Loading } from '@/components/loading-page';
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Suspense fallback={<Loading />}>{children}</Suspense>
       </body>
+      <Toaster />
     </html>
   );
 }
